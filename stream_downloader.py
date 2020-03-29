@@ -67,6 +67,7 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
             r_dict = json.loads(str(req.content, "utf-8"))
         except Exception:
             traceback.print_exc()
+
         print(len(r_dict["data"]))
         for doc in r_dict["data"]:
             yield doc
@@ -74,7 +75,7 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
         chunk_size = len(r_dict["data"])
         N += chunk_size
         pbar.update(chunk_size)
-    cur = int(r_dict["data"][-1]["created_utc"])
+        cur = int(r_dict["data"][-1]["created_utc"])
     pbar.close()
 
 
@@ -98,7 +99,16 @@ def main():
 
     year_list = range(2020,2021)
     for year in tqdm(year_list):
-        after_utc, before_utc = YMD2utc(str(year) + "-01-01", str(year+1) + "-01-01")
+        print(year)
+        after_ymd = str(year) + "-01-01"
+        before_ymd = str(year+1) + "-01-01"
+
+        after_utc, before_utc = YMD2utc(after_ymd, before_ymd)
+        print(after_ymd)
+        print(before_ymd)
+
+        print(after_utc)
+        print(before_utc)
 #        print(after_utc, before_utc)
         yearDocs = getNumSub(after_utc, before_utc)
         print(year, yearDocs)

@@ -1,5 +1,5 @@
-OUT_FILE = "outfile2020.json"
-PRETTY_OUT_FILE = "pretty_outfile2020.json"
+OUT_FILE = "outfile.json"
+PRETTY_OUT_FILE = "pretty_outfile.json"
 
 
 
@@ -63,6 +63,8 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
             url = "{}&size={}".format(url,residue)
 
         req = requests.get("{}&after={}&before={}".format(url,cur,before_utc))
+        print('cur', cur)
+        print('before_utc', before_utc)
         try:
             r_dict = json.loads(str(req.content, "utf-8"))
         except Exception:
@@ -71,11 +73,11 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
         print(len(r_dict["data"]))
         for doc in r_dict["data"]:
             yield doc
-        #yield r_dict["data"]
         chunk_size = len(r_dict["data"])
         N += chunk_size
+        cur = doc["created_utc"]
+        print(cur)
         pbar.update(chunk_size)
-        cur = int(r_dict["data"][-1]["created_utc"])
     pbar.close()
 
 
@@ -97,7 +99,7 @@ def main():
     with open(OUT_FILE, "w") as outfile:
         outfile.write("{ \"data\": [")
 
-    year_list = range(2020,2021)
+    year_list = range(2010,2021)
     for year in tqdm(year_list):
         print(year)
         after_ymd = str(year) + "-01-01"

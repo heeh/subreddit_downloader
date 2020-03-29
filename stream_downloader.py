@@ -75,6 +75,8 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
             yield doc
         chunk_size = len(r_dict["data"])
         N += chunk_size
+        if chunk_size == 0:
+            break
         cur = doc["created_utc"]
         print(cur)
         pbar.update(chunk_size)
@@ -91,7 +93,6 @@ def stream_write(numDocs: int, after_utc, before_utc):
             if chunk != "[" and chunk != "]":
                 outfile.write(chunk)
             #print("Writing chunk: ", chunk)
-
 
 def main():
     yearDocs = 0
@@ -128,5 +129,6 @@ def main():
         json_object = json.dumps(data, indent=4)
     with open(PRETTY_OUT_FILE, "w") as pf:
         pf.write(json_object)
-
+start_time = time.time()
 main()
+print("--- %s seconds ---" % (time.time() - start_time))

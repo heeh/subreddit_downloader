@@ -7,3 +7,5 @@
 ```bash
 $ python3 stream_downloader.py
 ```
+Currently, it downloads submissions from 2010 to 2021.
+Set `YEAR_AFTER` and `YEAR_BEFORE` to change the range.

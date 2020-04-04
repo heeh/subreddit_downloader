@@ -1,6 +1,9 @@
 OUT_FILE = "outfile.json"
 PRETTY_OUT_FILE = "pretty_outfile.json"
 
+YEAR_AFTER = 2010
+YEAR_BEFOR = 2021
+
 
 
 from reddit_util import YMD2utc, getNumSub
@@ -100,7 +103,7 @@ def main():
     with open(OUT_FILE, "w") as outfile:
         outfile.write("{ \"data\": [")
 
-    year_list = range(2010,2021)
+    year_list = range(YEAR_AFTER, YEAR_BEFORE)
     for year in tqdm(year_list):
         print(year)
         after_ymd = str(year) + "-01-01"

@@ -2,7 +2,7 @@ OUT_FILE = "outfile.json"
 PRETTY_OUT_FILE = "pretty_outfile.json"
 
 YEAR_AFTER = 2010
-YEAR_BEFOR = 2021
+YEAR_BEFORE = 2021
 
 
 

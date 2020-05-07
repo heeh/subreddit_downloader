@@ -1,7 +1,7 @@
-OUT_FILE = "outfile.json"
-PRETTY_OUT_FILE = "pretty_outfile.json"
+OUT_FILE = "outfile_2020.json"
+PRETTY_OUT_FILE = "pretty_outfile_2020.json"
 
-YEAR_AFTER = 2010
+YEAR_AFTER = 2020
 YEAR_BEFORE = 2021
 
 
@@ -72,6 +72,7 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
             r_dict = json.loads(str(req.content, "utf-8"))
         except Exception:
             traceback.print_exc()
+            continue
 
         print(len(r_dict["data"]))
         for doc in r_dict["data"]:

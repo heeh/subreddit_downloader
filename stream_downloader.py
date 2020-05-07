@@ -1,8 +1,9 @@
-OUT_FILE = "outfile_2020.json"
-PRETTY_OUT_FILE = "pretty_outfile_2020.json"
-
-YEAR_AFTER = 2020
+YEAR_AFTER = 2011
 YEAR_BEFORE = 2021
+
+OUT_FILE = "outfile_" +  str(YEAR_AFTER) + "_" + str(YEAR_BEFORE) + ".json"
+PRETTY_OUT_FILE = "pretty_" +  str(YEAR_AFTER) + "_" + str(YEAR_BEFORE) + ".json"
+
 
 
 
@@ -60,7 +61,7 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
     while N < numDocs:
         url = "https://api.pushshift.io/reddit/search/submission/?subreddit=legaladvice&fields=id,created_utc,title,selftext"
         residue = numDocs - N;
-        if residue >= 1000:
+        if residue >= REQ_SIZE:
             url = "{}&size={}".format(url,REQ_SIZE)
         else:
             url = "{}&size={}".format(url,residue)
@@ -71,7 +72,8 @@ def large_list_generator_func(numDocs, after_utc, before_utc):
         try:
             r_dict = json.loads(str(req.content, "utf-8"))
         except Exception:
-            traceback.print_exc()
+            print("Pushshift API Call Limit! I will try it again.")
+            #traceback.print_exc()
             continue
 
         print(len(r_dict["data"]))
@@ -117,7 +119,11 @@ def main():
         print(after_utc)
         print(before_utc)
 #        print(after_utc, before_utc)
+
         yearDocs = getNumSub(after_utc, before_utc)
+
+
+
         print(year, yearDocs)
         stream_write(yearDocs, after_utc, before_utc)
         if year != year_list[-1]:

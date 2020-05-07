@@ -49,9 +49,20 @@ def YMD2utc(after_YMD: str, before_YMD: str):
 
 def getNumSub(after_utc: int, before_utc: int):
     nd_url = "https://api.pushshift.io/reddit/submission/search/?subreddit=legaladvice&aggs=subreddit&size=0"
-    nd_res = requests.get('{}&after={}&before={}'.format(nd_url, after_utc, before_utc))
-    nd_data = nd_res.json() 
-    nd_json = json.dumps(nd_data, indent = 4)
+
+    success = False
+    while not success:
+        try:
+            nd_res = requests.get('{}&after={}&before={}'.format(nd_url, after_utc, before_utc))
+            nd_data = nd_res.json() 
+            nd_json = json.dumps(nd_data, indent = 4)
+        except:
+            print("Pushshift API Call Limit! I will try it again.")
+        else:
+            success = True
+
+
+
 
     numDocs = nd_data['aggs']['subreddit'][0]['doc_count']
     print('Number of Documents:',numDocs)
